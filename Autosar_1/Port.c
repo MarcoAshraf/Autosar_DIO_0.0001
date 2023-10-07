@@ -29,9 +29,12 @@ void Port_Init (const Port_ConfigType* ConfigPtr)
     }
     else
     {
+        SYSCTL_RCGCGPIO_R |= 1<<PORT;
+        while(!SYSCTL_RCGCGPIO_R & ~(1<<PORT)){};
         switch(ConfigPtr->PORT)
         {
         case PORTA:
+            
             GPIO_PORTA_LOCK_R = UNLOCK;
             GPIO_PORTA_CR_R = NUMBER_OF_PINS;
             for(uint8 pin=0; pin<NUMBER_OF_PINS; pin++)
